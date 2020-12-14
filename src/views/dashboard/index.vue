@@ -13,6 +13,11 @@ export default {
     ...mapGetters([
       'name'
     ])
+  },
+  mounted(){
+    this.$http.get('/api/user/add').then(res=>{
+      console.log('this.panels',res)
+    })
   }
 }
 </script>
