@@ -55,6 +55,101 @@ export const constantRoutes = [
     }]
   },
 
+  {
+    path: '/teacher',
+    component: Layout,
+    meta: { title: '老师管理', icon: 'example' },
+    redirect: '/teacher',
+    children: [{
+      path: 'teacher',
+      name: 'teacher',
+      component: () => import('@/views/teacher'),
+      meta: { title: '老师管理', icon: 'user' }
+    },
+      {
+        path: 'editor',
+        name: 'editor',
+        component: () => import('@/views/teacher/editor'),
+        meta: { title: '添加老师', icon: 'user' }
+      }]
+  },
+
+  {
+    path: '/student',
+    component: Layout,
+    meta: { title: '学生管理', icon: 'example' },
+    redirect: '/student',
+    children: [{
+      path: 'student',
+      name: 'student',
+      component: () => import('@/views/student/index'),
+      meta: { title: '学生管理', icon: 'user' }
+    },
+      {
+        path: 'editor',
+        name: 'editor',
+        component: () => import('@/views/student/editor'),
+        meta: { title: '添加学生', icon: 'user' }
+      }]
+  },
+
+  {
+    path: '/classes',
+    component: Layout,
+    meta: { title: '班级管理', icon: 'example' },
+    redirect: '/classes',
+    children: [{
+      path: 'classes',
+      name: 'classes',
+      component: () => import('@/views/classes'),
+      meta: { title: '班级管理', icon: 'classes' }
+    },
+      {
+        path: 'editor',
+        name: 'editor',
+        component: () => import('@/views/classes/editor'),
+        meta: { title: '添加班级', icon: 'classes' }
+      }]
+  },
+
+  {
+    path: '/academy',
+    component: Layout,
+    meta: { title: '学院管理', icon: 'example' },
+    redirect: 'academy',
+    children: [{
+      path: 'academy',
+      name: 'academy',
+      component: () => import('@/views/academy'),
+      meta: { title: '学院管理', icon: 'academy' }
+    },
+      {
+        path: 'editor',
+        name: 'editor',
+        component: () => import('@/views/academy/editor'),
+        meta: { title: '添加学院', icon: 'academy' }
+      }]
+  },
+
+  {
+    path: '/school',
+    component: Layout,
+    meta: { title: '学校管理', icon: 'example' },
+    redirect: 'school',
+    children: [{
+      path: 'school',
+      name: 'school',
+      component: () => import('@/views/school'),
+      meta: { title: '学校管理', icon: 'school' }
+    },
+    {
+      path: 'editor',
+      name: 'editor',
+      component: () => import('@/views/school/editor'),
+      meta: { title: '添加学校', icon: 'school' }
+    }]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

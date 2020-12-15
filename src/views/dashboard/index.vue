@@ -15,7 +15,7 @@ export default {
     ])
   },
   mounted(){
-    this.$http.get('/api/user/add').then(res=>{
+    this.$http.get('/api/users/list').then(res=>{
       console.log('this.panels',res)
     })
   }

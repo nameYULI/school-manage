@@ -16,7 +16,7 @@ import '@/icons' // icon
 import '@/permission' // permission control
 
 import http from './utils/http'
-Vue.use(http)
+Vue.prototype.$http = http
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
