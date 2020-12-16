@@ -3,7 +3,7 @@
  * @Author: yuli
  * @Date: 2020-12-15 19:27:53
  * @LastEditors: yuli
- * @LastEditTime: 2020-12-15 20:20:30
+ * @LastEditTime: 2020-12-16 09:36:08
 -->
 <template>
   <div class="dashboard-container">
@@ -95,23 +95,20 @@ export default {
     },
     schoolChange(val1) {
       //显示学院选择栏目
-      this.$http.get("/api/academy/list").then(res => {
-        if (res && res.length > 0) {
-            this.academys = [];
-          res.forEach(item => {
-            if (item.school_id == val1) {
-              this.academys.push(item);
-            }
-          });
+      let academyArr = [];
+      this.academys.map(item => {
+        if (item.school_id == val1) {
+          academyArr.push(item);
         }
       });
+      this.academys = academyArr;
     },
-    showAcademy(val){
-        this.$http.post("/api/academy/get",{id:val}).then(res=>{
-            if(res&&res.length>0){
-                this.academys=res
-            }
-        })
+    showAcademy(val) {
+      this.$http.post("/api/academy/get", { id: val }).then(res => {
+        if (res && res.length > 0) {
+          this.academys = res;
+        }
+      });
     }
   },
   mounted() {
@@ -127,6 +124,12 @@ export default {
         });
     }
 
+    //学院选择栏目
+    this.$http.get("/api/academy/list").then(res => {
+      if (res && res.length > 0) {
+        this.academys = res;
+      }
+    });
     //显示学校选择栏目
     this.$http.get("/api/school/list").then(res => {
       if (res && res.length > 0) {

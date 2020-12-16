@@ -1,20 +1,18 @@
-<!--
- * @Description: 
- * @Author: yuli
- * @Date: 2020-12-15 21:00:30
- * @LastEditors: yuli
- * @LastEditTime: 2020-12-15 21:15:40
--->
 <template>
   <div class="dashboard-container">
     <el-form ref="form" :model="form" label-width="80px">
       <el-form-item label="所属学校">
-        <el-select v-model="form.school_id" placeholder="请选择" @change="schoolChange">
+        <el-select
+          v-model="form.school_id"
+          placeholder="请选择"
+          @change="schoolChange"
+        >
           <el-option
             v-for="item in schools"
             :key="item.school_id"
             :label="item.school_name"
-            :value="item.school_id">
+            :value="item.school_id"
+          >
           </el-option>
         </el-select>
       </el-form-item>
@@ -25,7 +23,8 @@
             v-for="item in academys"
             :key="item.id"
             :label="item.name"
-            :value="item.id">
+            :value="item.id"
+          >
           </el-option>
         </el-select>
       </el-form-item>
@@ -43,92 +42,101 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">立即创建</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="cancle">取消</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
-  export default {
-    name: 'teacher-editor',
-    computed: {
-      ...mapGetters([
-        'name'
-      ])
-    },
-    data(){
-      return{
-        schools:[],
-        academys:[],
-        options: [
-        ],
-        apiModel:'teacher',
-        form:{}
+export default {
+  name: "teacher-editor",
+  computed: {
+    ...mapGetters(["name"])
+  },
+  data() {
+    return {
+      schools: [],
+      academys: [],
+      options: [],
+      apiModel: "teacher",
+      form: {}
+    };
+  },
+  methods: {
+    onSubmit() {
+      if (this.form.teacher_id) {
+        this.$http.post(`/api/${this.apiModel}/update`, this.form).then(res => {
+          console.log("bar:", res);
+          this.$router.push({ path: this.apiModel });
+          this.form = {};
+        });
+      } else {
+        this.$http
+          .post("/api/" + this.apiModel + "/add", this.form)
+          .then(res => {
+            this.$router.push({ path: this.apiModel });
+            this.form = {};
+          });
       }
     },
-    methods:{
-      onSubmit(){
-        if(this.form._id){
-          this.$http.post(`/api/${this.apiModel}/update`,this.form).then(res => {
-            console.log('bar:', res)
-            this.$router.push({path:this.apiModel})
-            this.form={}
-          })
-        }else
-        {
-          this.$http.post('/api/'+this.apiModel+'/add',this.form).then(res => {
-            this.$router.push({path:this.apiModel})
-            this.form={}
-          })
-        }
-      },
-      schoolChange(val1){
-        //显示学院选择栏目
-        this.$http.get("/api/academy/list").then(res => {
-        if (res && res.length > 0) {
-            this.academys = [];
-          res.forEach(item => {
-            if (item.school_id == val1) {
-              this.academys.push(item);
-            }
-          });
+    cancle() {
+      if (this.form.teacher_id) {
+        this.$router.push({ path: this.apiModel });
+      } else {
+        this.form = {};
+      }
+    },
+    schoolChange(val1) {
+      //显示学院选择栏目
+      let academyArr = [];
+      this.academys.map(item => {
+        if (item.school_id == val1) {
+          academyArr.push(item);
         }
       });
-      }
-    },
-
-    mounted() {
-      if(this.$route.query._id){
-        this.$http.post('/api/'+this.apiModel+'/get',{id:this.$route.query._id}).then(res => {
-          if(res&&res.length>0){
-            this.form = res[0]
-            this.schoolChange(this.form.school)
-          }
-        })
-      }
-
-      //显示学校选择栏目
-      this.$http.get('/api/school/list').then(res => {
-        if(res&&res.length>0){
-          this.schools = res
-        }
-      })
+      this.academys = academyArr;
     }
+  },
+
+  mounted() {
+    if (this.$route.query._id) {
+      this.$http
+        .post("/api/" + this.apiModel + "/get", { id: this.$route.query._id })
+        .then(res => {
+          if (res && res.length > 0) {
+            this.form = res[0];
+            this.schoolChange(this.form.school);
+          }
+        });
+    }
+
+    //学院选择栏目
+    this.$http.get("/api/academy/list").then(res => {
+      if (res && res.length > 0) {
+        this.academys = res;
+      }
+    });
+    //显示学校选择栏目
+    this.$http.get("/api/school/list").then(res => {
+      if (res && res.length > 0) {
+        this.schools = res;
+      }
+    });
   }
+};
 </script>
 
 <style lang="scss" scoped>
-  .dashboard {
-    &-container {
-      margin: 30px;
-    }
-    &-text {
-      font-size: 30px;
-      line-height: 46px;
-    }
+.dashboard {
+  &-container {
+    margin: 30px;
   }
+  &-text {
+    font-size: 30px;
+    line-height: 46px;
+  }
+}
 </style>
-

@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      if (this.form.id) {
+      if (this.form.school_id) {
         this.$http.post(`/api/${this.apiModel}/update`, this.form).then(res => {
           console.log("bar:", res);
           this.$router.push({ path: this.apiModel });
@@ -51,7 +51,7 @@ export default {
       }
     },
     cancle() {
-      if (this.form.id) {
+      if (this.form.school_id) {
         this.$router.push({ path: this.apiModel });
       } else {
         this.form = {};

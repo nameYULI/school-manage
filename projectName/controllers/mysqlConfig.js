@@ -3,7 +3,7 @@
  * @Author: yuli
  * @Date: 2020-12-15 10:51:41
  * @LastEditors: yuli
- * @LastEditTime: 2020-12-15 21:06:09
+ * @LastEditTime: 2020-12-16 09:19:44
  */
 var mysql = require('mysql');
 var config = require('./defaultConfig');
@@ -59,7 +59,7 @@ let allServices = {
         return allServices.query(_sql)
     },
     updateSchoolData: (obj) => { 
-        let _sql=`update school_table set school_name="${obj.school_name}",school_location="${obj.school_location}",school_type="${obj.school_type}" where id="${obj.id}"`
+        let _sql=`update school_table set school_name="${obj.school_name}",school_location="${obj.school_location}",school_type="${obj.school_type}" where school_id="${obj.school_id}"`
         return allServices.query(_sql)
     },
     deleteSchoolData:(id)=>{

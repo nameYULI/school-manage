@@ -64,7 +64,7 @@
         this.$router.push({ path: '/'+this.apiModel+'/editor', query: {_id:item.school_id} })
       },
       handleDelete(index, item) {
-        this.$http.post('/api/'+this.apiModel+'/delete', item).then(res => {
+        this.$http.post('/api/'+this.apiModel+'/delete', {id:item.school_id}).then(res => {
           this.findUser()
         })
 
